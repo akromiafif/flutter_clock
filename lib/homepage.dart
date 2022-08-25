@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         alignment: Alignment.center,
         color: const Color(0xFF2D2F41),
-        child: const ClockView(),
+        child: ClockView(),
       ),
     );
   }
