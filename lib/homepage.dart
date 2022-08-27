@@ -26,50 +26,74 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color(0xFF2D2F41),
       body: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                  'Clock',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                Text(
-                  formattedTime,
-                  style: const TextStyle(color: Colors.white, fontSize: 64),
-                ),
-                Text(
-                  formattedDate,
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                ClockView(),
-                const Text(
-                  'Timezone',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  children: <Widget>[
-                    const Icon(
-                      Icons.language,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextButton(
+                onPressed: () {},
+                child: Column(
+                  children: const <Widget>[
+                    FlutterLogo(),
                     Text(
-                      'UTC$offsetSign$timezoneString',
-                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                      'Clock',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
                   ],
-                )
-              ],
+                ),
+              ),
+            ],
+          ),
+          const VerticalDivider(
+            color: Colors.white54,
+            width: 1,
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text(
+                    'Clock',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Text(
+                    formattedTime,
+                    style: const TextStyle(color: Colors.white, fontSize: 64),
+                  ),
+                  Text(
+                    formattedDate,
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  ClockView(),
+                  const Text(
+                    'Timezone',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.language,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Text(
+                        'UTC $offsetSign $timezoneString',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ],
