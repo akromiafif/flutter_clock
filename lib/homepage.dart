@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clock/clock_view.dart';
+import 'package:flutter_clock/clockview.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,18 +29,10 @@ class _HomePageState extends State<HomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextButton(
-                onPressed: () {},
-                child: Column(
-                  children: const <Widget>[
-                    FlutterLogo(),
-                    Text(
-                      'Clock',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                  ],
-                ),
-              ),
+              buildMenuMethod('Clock', 'assets/clock_icon.png'),
+              buildMenuMethod('Alarm', 'assets/alarm_icon.png'),
+              buildMenuMethod('Timer', 'assets/timer_icon.png'),
+              buildMenuMethod('Stopwatch', 'assets/stopwatch_icon.png'),
             ],
           ),
           const VerticalDivider(
@@ -53,50 +45,121 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text(
-                    'Clock',
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Text(
-                    formattedTime,
-                    style: const TextStyle(color: Colors.white, fontSize: 64),
-                  ),
-                  Text(
-                    formattedDate,
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  ClockView(),
-                  const Text(
-                    'Timezone',
-                    style: TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.language,
+                  const Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: Text(
+                      'Clock',
+                      style: TextStyle(
                         color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: 'avenir',
                       ),
-                      const SizedBox(
-                        width: 16,
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          formattedTime,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 64,
+                            fontFamily: 'avenir',
+                          ),
+                        ),
+                        Text(
+                          formattedDate,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: 'avenir',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 4,
+                    fit: FlexFit.tight,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: ClockView(
+                        size: MediaQuery.of(context).size.height / 3,
                       ),
-                      Text(
-                        'UTC $offsetSign $timezoneString',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 24),
-                      ),
-                    ],
-                  )
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    fit: FlexFit.tight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Timezone',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontFamily: 'avenir',
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            const Icon(
+                              Icons.language,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Text(
+                              'UTC $offsetSign $timezoneString',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontFamily: 'avenir',
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Padding buildMenuMethod(String title, String image) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: TextButton(
+        onPressed: () {},
+        child: Column(
+          children: <Widget>[
+            Image.asset(
+              image,
+              scale: 1.5,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              title,
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 14, fontFamily: 'avenir'),
+            ),
+          ],
+        ),
       ),
     );
   }

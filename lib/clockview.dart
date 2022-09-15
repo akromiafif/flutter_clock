@@ -1,31 +1,46 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_clock/app/data/theme_data.dart';
 
 class ClockView extends StatefulWidget {
+  final double? size;
+
+  const ClockView({Key? key, this.size}) : super(key: key);
+
   @override
   _ClockViewState createState() => _ClockViewState();
 }
 
 class _ClockViewState extends State<ClockView> {
+  late Timer timer;
+
   @override
   void initState() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {});
     });
     super.initState();
   }
 
   @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
-      height: 300,
-      child: Transform.rotate(
-        angle: -pi / 2,
-        child: CustomPaint(
-          painter: ClockPainter(),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        width: widget.size,
+        height: widget.size,
+        child: Transform.rotate(
+          angle: -pi / 2,
+          child: CustomPaint(
+            painter: ClockPainter(),
+          ),
         ),
       ),
     );
@@ -42,41 +57,40 @@ class ClockPainter extends CustomPainter {
     var center = Offset(centerX, centerY);
     var radius = min(centerX, centerY);
 
-    var fillBrush = Paint()..color = const Color(0xFF444974);
-
+    var fillBrush = Paint()..color = CustomColors.clockBG;
     var outlineBrush = Paint()
-      ..color = const Color(0xFFEAECFF)
+      ..color = CustomColors.clockOutline
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 16;
-
-    var centerDotBrush = Paint()..color = const Color(0xFFEAECFF);
+      ..strokeWidth = size.width / 20;
+    var centerDotBrush = Paint()..color = CustomColors.clockOutline;
 
     var secHandBrush = Paint()
-      ..color = Colors.orangeAccent
+      ..color = CustomColors.secHandColor!
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 5;
+      ..strokeWidth = size.width / 60;
 
     var minHandBrush = Paint()
-      ..shader =
-          const RadialGradient(colors: [Color(0xFF748EF6), Color(0xFF77DDFF)])
-              .createShader(Rect.fromCircle(center: center, radius: radius))
+      ..shader = RadialGradient(colors: [
+        CustomColors.minHandStatColor,
+        CustomColors.minHandEndColor
+      ]).createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 8;
+      ..strokeWidth = size.width / 30;
 
     var hourHandBrush = Paint()
-      ..shader =
-          const RadialGradient(colors: [Color(0xFFEA74AB), Color(0xFFC279FB)])
-              .createShader(Rect.fromCircle(center: center, radius: radius))
+      ..shader = RadialGradient(colors: [
+        CustomColors.hourHandStatColor,
+        CustomColors.hourHandEndColor
+      ]).createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 12;
+      ..strokeWidth = size.width / 24;
 
     var dashBrush = Paint()
-      ..color = const Color(0xFFEAECFF)
+      ..color = CustomColors.clockOutline
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
       ..strokeWidth = 1;
 
     canvas.drawCircle(center, radius * 0.75, fillBrush);
