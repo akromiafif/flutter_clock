@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clock/app/data/theme_data.dart';
 import 'package:flutter_clock/clockview.dart';
+import 'package:flutter_clock/data.dart';
+import 'package:flutter_clock/menu_info.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,12 +32,9 @@ class _HomePageState extends State<HomePage> {
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              buildMenuMethod('Clock', 'assets/clock_icon.png'),
-              buildMenuMethod('Alarm', 'assets/alarm_icon.png'),
-              buildMenuMethod('Timer', 'assets/timer_icon.png'),
-              buildMenuMethod('Stopwatch', 'assets/stopwatch_icon.png'),
-            ],
+            children: menuItems
+                .map((currentMenuInfo) => buildMenuButton(currentMenuInfo))
+                .toList(),
           ),
           const VerticalDivider(
             color: Colors.white54,
@@ -139,28 +140,41 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding buildMenuMethod(String title, String image) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: TextButton(
-        onPressed: () {},
-        child: Column(
-          children: <Widget>[
-            Image.asset(
-              image,
-              scale: 1.5,
+  Widget buildMenuButton(MenuInfo currentMenuInfo) {
+    return Consumer<MenuInfo>(
+      builder: (BuildContext context, MenuInfo value, Widget? child) {
+        return MaterialButton(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(32),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Text(
-              title,
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 14, fontFamily: 'avenir'),
-            ),
-          ],
-        ),
-      ),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0),
+          color: currentMenuInfo.menuType == value.menuType
+              ? CustomColors.menuBackgroundColor
+              : CustomColors.pageBackgroundColor,
+          onPressed: () {
+            var menuInfo = Provider.of<MenuInfo>(context, listen: false);
+            menuInfo.updateMenu(currentMenuInfo);
+          },
+          child: Column(
+            children: <Widget>[
+              Image.asset(
+                currentMenuInfo.imageSource,
+                scale: 1.5,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                currentMenuInfo.title,
+                style: TextStyle(
+                    fontFamily: 'avenir',
+                    color: CustomColors.primaryTextColor,
+                    fontSize: 14),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
