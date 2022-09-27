@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clock/enums.dart';
 import 'package:flutter_clock/homepage.dart';
-import 'package:flutter_clock/menu_info.dart';
+import 'package:flutter_clock/models/menu_info.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       home: ChangeNotifierProvider(
         create: (context) =>
             MenuInfo(MenuType.clock, title: 'Clock', imageSource: 'test'),
-        child: const HomePage(),
+        child: HomePage(),
       ),
     );
   }
